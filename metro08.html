@@ -1,0 +1,115 @@
+<!-- 01 Initial trial to convert from Python to JS -->
+<!-- 02 Fix rounding and display for time -->
+<!-- 03 Add Count Down Element -->
+<!-- 04 Fix Font -->
+<!-- 05 Fix display without text elements -->
+<!-- 06 Fix Rounding issue on xms part 1 - no microseconds -->
+<!-- 07 Fix Rounding issue on xms part 2 - new microseconds -->
+<!-- 08 Cleanup testing elements - Release Candidate -->
+
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Nixie+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+
+<meta http-equiv="refresh" content="3600" >
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+
+<style type="text/css">
+.metronomeStyle {
+   background-color:#000000;
+   color:#FFD733;
+   font-family: 'Major Mono Display', monospace;
+      font-size:100px;
+   text-align:center;
+}
+
+body {background-color:#000000}
+
+</style>
+
+</head>
+
+<body>
+
+<table>
+<tr><td id="clockDisplay" class="metronomeStyle">shouldn't see this</td></tr>
+</table>
+
+
+<script 
+type="text/javascript" language="javascript"> function renderTime() {
+	var clock = new Date();
+	var hour = clock.getHours();
+	var minute = clock.getMinutes();
+	var second = clock.getSeconds();
+	var micro =  clock.getMilliseconds();
+	var xmicro = clock.getMilliseconds();
+	setTimeout('renderTime()',10);
+
+
+	var ms = ((micro/100).toFixed(0));
+	var xms = (10-ms);
+	var xsec = (59-second)
+	var xmin = (59-minute)
+	var xhr = (23-hour)
+	var xmi = Math.floor((xmicro/10) % 10);
+
+	if (hour < 10) {
+		hour = "0" + hour;
+	}
+
+	if (xhr < 10) {
+		xhr = "0" + xhr;
+	}
+
+	if (minute < 10) {
+		minute = "0" + minute;
+	}
+	
+	if (xmin < 10) {
+		xmin = "0" + xmin;
+	}
+
+	if (second < 10) {
+		second = "0" + second;
+	}
+
+	if (xsec < 10) {
+		xsec = "0" + xsec;
+	}
+
+	if (ms > 9) {
+		ms = "0";
+	}
+
+	if (xms < 1) {
+		xms = "0";
+	}
+
+	if (xms > 9) {
+		xms = "0";
+	}
+
+	var phr = hour.toString();
+	var nhr = xhr.toString();
+	var pmin = minute.toString();
+	var nmin = xmin.toString();
+	var psec = second.toString();
+	var nsec = xsec.toString();
+	var pms = ms.toString();
+	var nms = xms.toString();
+	var pmi = xmi.toString();
+
+
+	var metronome = document.getElementById('clockDisplay');
+	metronome.textContent = phr + pmin + psec + pms + pmi + nms + nsec + nmin + nhr + "\n";
+	metronome.innerText = phr + pmin + psec + pms + pmi + nms + nsec + nmin + nhr + "\n";
+
+}
+renderTime();
+</script>
+
+</body>
+</html>
