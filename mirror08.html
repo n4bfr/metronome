@@ -1,0 +1,121 @@
+<!-- 01 Initial trial to convert from Python to JS -->
+<!-- 02 Fix rounding and display for time -->
+<!-- 03 Add Count Down Element -->
+<!-- 04 Fix Font -->
+<!-- 05 Fix display without text elements -->
+<!-- 06 Fix Rounding issue on xms part 1 - no microseconds -->
+<!-- 07 Fix Rounding issue on xms part 2 - new microseconds -->
+<!-- 08 Cleanup testing elements - Release Candidate -->
+<!-- Mirror01 - Set up graphic test enviornment -->
+<!-- Mirror02 - Working assumption on 10's hours -->
+<!-- Mirror03 - figure out maths on 1's hours -->
+<!-- Mirror04 - test maths assumptions on minutes and begin formatting-->
+<!-- Mirror05 - finish minutes maths and formatting-->
+<!-- Mirror06 - complete seconds maths and formatting-->
+<!-- Mirror07 - beta display -->
+<!-- Mirror08 - clean original Metronome code out - release candidate -->
+
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Nixie+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+
+<meta http-equiv="refresh" content="3600" >
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+
+<style type="text/css">
+.metronomeStyle {
+   background-color:#000000;
+   color:#FFD733;
+   font-family: 'Major Mono Display', monospace;
+      font-size:100px;
+   text-align:center;
+}
+
+body {background-color:#000000}
+
+</style>
+
+</head>
+
+<body>
+
+<table>
+<tr><td id="mirrorDisplay" class="metronomeStyle">shouldn't see this</td></tr>
+</table>
+
+
+<script 
+type="text/javascript" language="javascript"> function renderTime() {
+	var clock = new Date();
+	var hour = clock.getHours();
+	var minute = clock.getMinutes();
+	var second = clock.getSeconds();
+	var micro =  clock.getMilliseconds();
+	var xmicro = clock.getMilliseconds();
+	setTimeout('renderTime()',10);
+
+
+	var ms = ((micro/100).toFixed(0));
+	var xms = (10-ms);
+	var xhrt = Math.floor((23-hour)/10);
+	var xhro = ((23-hour)-xhrt*10);
+	var xmint = Math.floor((59-minute)/10);
+	var xmino = ((59-minute)-xmint*10);
+	var xsect = Math.floor((59-second)/10);
+	var xseco = ((59-second)-xsect*10);
+	var xmi = Math.floor((xmicro/10) % 10);
+
+
+	if (hour < 10) {
+		hour = "0" + hour;
+	}
+
+
+	if (minute < 10) {
+		minute = "0" + minute;
+	}
+	
+
+	if (second < 10) {
+		second = "0" + second;
+	}
+
+
+	if (ms > 9) {
+		ms = "0";
+	}
+
+	if (xms < 1) {
+		xms = "0";
+	}
+
+	if (xms > 9) {
+		xms = "0";
+	}
+
+	var phr = hour.toString();
+	var pmin = minute.toString();
+	var psec = second.toString();
+	var pms = ms.toString();
+	var pmi = xmi.toString();
+	var nms = xms.toString();
+	var nhrt = xhrt.toString();
+	var nhro = xhro.toString();
+	var nmno = xmino.toString();
+	var nmnt = xmint.toString();
+	var nseo = xseco.toString();
+	var nset = xsect.toString();
+
+	var mirrormetro = document.getElementById('mirrorDisplay');
+	mirrormetro.textContent = phr + pmin + psec + pms + pmi + nms + nseo + nset + nmno + nmnt + nhro + nhrt + "\n";
+	mirrormetro.innerText = phr + pmin + psec + pms + pmi + nms + nseo + nset + nmno + nmnt + nhro + nhrt + "\n";
+
+
+}
+renderTime();
+</script>
+
+</body>
+</html>
